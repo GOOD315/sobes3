@@ -1,0 +1,150 @@
+<app-mainmenu></app-mainmenu>
+
+<h1 style="margin-left: 50px;">Мои курсы</h1>
+
+<div class="card">
+
+  <p-dataView #dv [value]="this.service.coursesList" [rows]="9" [paginator]="true" layout="grid">
+
+    <ng-template pTemplate="header">
+      <div class="field grid">
+        <div class="col-2">
+          <!-- <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price"
+            (onChange)="onSortChange($event)" styleClass="p-mb-2 p-mb-md-0"></p-dropdown> -->
+          <p-button  (click)="showModalDialog()" label="Создать курс"></p-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template let-course pTemplate="gridItem">
+      <div class="p-col-12 p-md-4">
+        <div class="product-grid-item card">
+
+          <div class="product-grid-item-content">
+            <img style="width: 110px; height: 110px;" src="assets/images/{{course.image}}">
+            <div class="product-name">{{ course.name }}</div>
+            <div class="product-description">Тип: {{ course.typeStr }}</div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
+
+
+
+<!-- <h5>Modal</h5>
+<p-button (click)="showModalDialog()" icon="pi pi-external-link" label="Show"></p-button> -->
+<p-dialog [contentStyle]="{'overflow':'visible'}" header="Создать новый курс" [(visible)]="displayModal" [modal]="true"
+  [style]="{width: '50vw'}" [baseZIndex]="8000">
+
+  <!-- <div [formGroup]="userForm"> -->
+  <div class="field grid">
+    <label for="courseName" class="col-12 mb-4 md:col-3 md:mb-2">Название</label>
+    <div class="col-4 md:col-4 p-float-label">
+      <input [(ngModel)]="this.service.courseName" pInputText id="courseName" type="text" class="inputfield">
+      <!-- <label for="courseName">Название</label> -->
+    </div>
+    <div class="col-3 md:col-4">
+      <small id="courseName-help" *ngIf="courseNameErr">Введите название</small>
+    </div>
+  </div>
+
+  <div class="field grid">
+    <label for="courseDate" class="col-12 mb-4 md:col-3 md:mb-2">Дата</label>
+    <div class="col-4 md:col-4">
+      <p-calendar id="courseDate" [(ngModel)]="this.service.courseDate" dateFormat="dd.mm.yy">
+      </p-calendar>
+    </div>
+    <div class="col-3 md:col-4">
+      <small id="courseDate-help" *ngIf="courseDateErr">Введите дату курса</small>
+    </div>
+  </div>
+
+  <div class="field grid">
+    <label for="courseDuration" class="col-12 mb-4 md:col-3 md:mb-2">Продолжительность</label>
+    <div class="col-4 md:col-4 p-float-label">
+      <input [(ngModel)]="this.service.courseDuration" pInputText id="courseDuration" type="text" class="inputfield">
+      <!-- <label for="courseDuration">Продолжительность</label> -->
+    </div>
+    <div class="col-3 md:col-4">
+      <small id="username1-help" *ngIf="courseDurationErr">Выберите продолжительность курса</small>
+    </div>
+  </div>
+  <!-- <div class="field grid">
+    <div class="col-12 mb-4 md:col-3 md:mb-2"></div>
+    <div class="col-8 md:col-6">
+      <small id="username1-help">Enter your username to reset your password.</small>
+    </div>
+  </div> -->
+
+  <div class="field grid">
+    <label class="col-12 mb-4 md:col-3 md:mb-2">Тип курса</label>
+
+    <div class="col-4 md:col-2">
+      <div class="p-field-radiobutton">
+        <p-radioButton name="city" value=1 [(ngModel)]="this.service.selectedCourseType" inputId="course1">
+        </p-radioButton>
+        &nbsp;
+        <label style="margin-bottom: 0px;" for="course1">Online</label>
+      </div>
+    </div>
+    <div class="col-4 md:col-2">
+      <div class="p-field-radiobutton">
+        <p-radioButton name="city" value=2 [(ngModel)]="this.service.selectedCourseType" inputId="course2">
+        </p-radioButton>
+        &nbsp;
+        <label style="margin-bottom: 0px;" for="course2">Offline</label>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="field grid" *ngIf="this.service.selectedCourseType==1">
+    <label class="col-12 mb-4 md:col-3 md:mb-2">URL:</label>
+    <div class="col-4 md:col-4 p-float-label">
+      <input [(ngModel)]="this.service.url" pInputText id="url" type="text" class="inputfield">
+    </div>
+    <div class="col-3 md:col-4">
+      <small id="courseDate-help" *ngIf="urlErr">Введите URL</small>
+    </div>
+  </div>
+
+  <ng-container *ngIf="this.service.selectedCourseType==2">
+    <div class="field grid">
+      <label class="col-12 mb-4 md:col-3 md:mb-2">Здание:</label>
+      <div class="col-4 md:col-4">
+        <p-dropdown [options]="this.service.buildings" [(ngModel)]="this.service.selectedBuilding" optionLabel="name">
+        </p-dropdown>
+      </div>
+      <div class="col-3 md:col-4">
+        <small id="courseDate-help" *ngIf="selectedBuildingErr">Выберите здание</small>
+      </div>
+    </div>
+    <div class="field grid">
+      <label class="col-12 mb-4 md:col-3 md:mb-2">Аудитория:</label>
+      <div class="col-4 md:col-4">
+        <p-dropdown [options]="this.service.classrooms" [(ngModel)]="this.service.selectedClassroom" optionLabel="name">
+        </p-dropdown>
+      </div>
+      <div class="col-3 md:col-4">
+        <small id="courseDate-help" class="p-invalid" *ngIf="selectedClassroomErr">Выберите аудиторию</small>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="field grid">
+    <label class="col-12 mb-4 md:col-3 md:mb-2">Примечание:</label>
+    <div class="col-4 md:col-4">
+      <textarea pInputTextarea [(ngModel)]="this.service.courseNote" rows="5" cols="23"></textarea>
+    </div>
+  </div>
+  <!-- </div> -->
+
+
+
+
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="CreateNewCourse()" label="Создать" class="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

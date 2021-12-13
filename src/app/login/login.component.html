@@ -1,0 +1,38 @@
+<div class="grid">
+    <div style="height: 300px;" class="col-12">
+    </div>
+    <div class="col-12">
+  
+  
+      <div class="grid">
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+          <div class="intro__form">
+            <h3 class="intro__form-title">Вход в личный кабинет</h3>
+            <div class="not-authorized" *ngIf="showIncorrectMessage">Введенные логин-пароль некорректны.
+            </div>
+          </div>
+  
+  
+          <form action="" class="form">
+  
+            <div class="form__row">
+              <div class="form__group">
+                <input class="form__input" [(ngModel)]="login" name="login" placeholder="Имя учетной записи">
+              </div>
+              <div class="form__group">
+                <input class="form__input" [(ngModel)]="password" name="password" placeholder="Пароль" type="password"
+                  autocomplete="off">
+              </div>
+              <div class="form__group">
+                <button id="btn" class="form__btn" (click)="onClick()">Войти</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  

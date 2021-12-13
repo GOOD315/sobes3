@@ -1,0 +1,22 @@
+<app-mainmenu></app-mainmenu>
+
+<h1 style="margin-left: 50px;">Моя программа</h1>
+
+<div class="card">
+
+  <p-dataView id="223" #dv [value]="this.service.coursesList" [rows]="20" [paginator]="true" layout="grid">
+
+    <ng-template let-course pTemplate="gridItem">
+      <div class="p-col-12 p-md-4">
+        <div class="product-grid-item card">
+          <div class="product-grid-item-content">
+            <img style="width: 110px; height: 110px;" src="assets/images/{{course.image}}">
+            <div class="product-name">{{ course.name }}</div>
+            <div class="product-description">Тип: {{ course.typeStr }}</div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+
+</div>
